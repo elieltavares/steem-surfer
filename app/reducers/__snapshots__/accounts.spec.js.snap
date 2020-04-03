@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`accounts reducer (1) default state 1`] = `Array []`;
+
+exports[`accounts reducer (2) account "foo" added  1`] = `
+Array [
+  Object {
+    "username": "foo",
+  },
+]
+`;
+
+exports[`accounts reducer (3) account "bar" added  1`] = `
+Array [
+  Object {
+    "username": "foo",
+  },
+  Object {
+    "username": "bar",
+  },
+]
+`;
+
+exports[`accounts reducer (4) account "baz" added 1`] = `
+Array [
+  Object {
+    "username": "foo",
+  },
+  Object {
+    "username": "bar",
+  },
+  Object {
+    "username": "baz",
+  },
+]
+`;
+
+exports[`accounts reducer (5) account "baz" deleted 1`] = `
+Array [
+  Object {
+    "username": "foo",
+  },
+  Object {
+    "username": "bar",
+  },
+]
+`;
+
+exports[`accounts reducer (7) account "foo" deleted 1`] = `
+Array [
+  Object {
+    "username": "bar",
+  },
+]
+`;
+
+exports[`accounts reducer (10) account "bar" added  1`] = `
+Array [
+  Object {
+    "username": "bar",
+  },
+]
+`;

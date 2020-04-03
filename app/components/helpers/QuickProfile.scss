@@ -1,0 +1,205 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+.quick-profile-content {
+  height: 100%;
+  left: 0;
+  padding: 8px 16px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  .profile-area {
+    align-items: center;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    height: 240px;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    width: 100%;
+
+    .account-cover {
+      align-items: center;
+      background-color: $white-three;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 10px;
+      display: flex;
+      height: 134px;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+      width: 100%;
+
+      .profile-avatar {
+        height: 100px;
+        position: relative;
+        width: 100px;
+
+        .user-avatar {
+          border: 3px solid $powder-blue;
+          height: 100px;
+          width: 100px;
+        }
+
+        .reputation {
+          background: $dark-sky-blue;
+          border-radius: 25px;
+          bottom: 0;
+          color: $white;
+          font-weight: 700;
+          left: 0;
+          line-height: 1em;
+          padding: 4px 12px;
+          position: absolute;
+        }
+      }
+
+      .follow-btn-holder {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        z-index: 1;
+      }
+    }
+
+    .username {
+      color: $dark-sky-blue;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+
+      &:before {
+        content: '@';
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .about {
+      color: $dark-sky-blue;
+      height: 16px;
+      margin-bottom: 10px;
+      max-width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @include themify(day) {
+        opacity: 0.6;
+      }
+
+      @include themify(night) {
+        opacity: 0.8;
+      }
+    }
+
+    .numbers {
+      align-items: center;
+      color: $steel-grey;
+      display: flex;
+      font-size: 13px;
+      height: 20px;
+
+      .mi {
+        color: $silver;
+        font-size: 16px;
+        margin-right: 8px;
+      }
+
+      .followers,
+      .post-count,
+      .following {
+        align-items: center;
+        display: flex;
+        height: 100%;
+      }
+
+      .followers,
+      .post-count {
+        margin-right: 24px;
+      }
+
+      .post-count {
+        .mi {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .account-menu {
+    display: flex;
+    height: 44px;
+    margin: 0 6px;
+
+    @include themify(day) {
+      border-bottom: 1px solid $white-four;
+    }
+
+    @include themify(night) {
+      border-bottom: 1px solid $dark-two;
+    }
+
+    .account-menu-items {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+
+      .menu-item {
+        align-items: center;
+        color: $steel-grey;
+        display: flex;
+        font-size: 14px;
+        height: 44px;
+        padding: 0 16px;
+
+        &:not(:last-child) {
+          margin-right: 30px;
+        }
+
+        &.selected-item {
+          border-bottom: 2px solid $dark-sky-blue;
+          color: $dark-sky-blue;
+          font-weight: 700;
+        }
+      }
+
+      .separator-item {
+        display: flex;
+        flex-grow: 1;
+        height: 20px;
+      }
+    }
+  }
+
+  .entries {
+    max-height: calc(100% - 240px - 44px);
+    overflow: auto;
+    margin: 0 0 0 6px;
+
+    .entry-list-item .app,
+    .entry-list-loading-item .app {
+      display: none;
+    }
+  }
+
+  &.loading {
+    .account-menu {
+      border-bottom-color: transparent;
+
+      .account-menu-items {
+        .menu-item {
+          pointer-events: none;
+          border-bottom-color: transparent;
+        }
+      }
+    }
+  }
+}

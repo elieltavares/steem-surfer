@@ -1,0 +1,205 @@
+.login-dialog-content {
+  .login-msg {
+    margin-bottom: 10px;
+  }
+
+  .account-list {
+    .account-list-header {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      text-align: center;
+
+      @include themify(day) {
+        color: $steel-grey;
+      }
+
+      @include themify(night) {
+        color: $metallic-blue;
+      }
+    }
+
+    .account-list-body {
+      .account-list-item {
+        align-items: center;
+        border-radius: 25px;
+        cursor: pointer;
+        display: flex;
+        font-size: 16px;
+        line-height: 16px;
+        margin-bottom: 10px;
+        padding: 10px;
+        position: relative;
+        transition: 0.5s;
+
+        @include themify(day) {
+          background: $duck-egg-blue;
+          color: $dark-sky-blue;
+        }
+
+        @include themify(night) {
+          background: $metallic-blue;
+          color: $powder-blue;
+        }
+
+        &:hover {
+          @include themify(day) {
+            background: lighten($dark-sky-blue, 30);
+          }
+
+          @include themify(night) {
+            background: darken($metallic-blue, 16);
+          }
+        }
+
+        .user-avatar {
+          margin-right: 10px;
+        }
+
+        .username {
+          font-weight: 500;
+        }
+
+        .space {
+          flex-grow: 1;
+        }
+
+        .check-mark {
+          background: $dark-sky-blue;
+          border-radius: 50%;
+          height: 5px;
+          left: -14px;
+          position: absolute;
+          top: calc(50% - 2.5px);
+          width: 5px;
+        }
+
+        .btn-delete {
+          align-items: center;
+          border-radius: 50%;
+          cursor: pointer;
+          display: none;
+          height: 24px;
+          justify-content: center;
+          width: 24px;
+
+          .mi {
+            color: $white;
+            font-size: 16px;
+          }
+
+          &:hover {
+            .mi {
+              color: lighten($red2, 10);
+            }
+          }
+
+          @include themify(day) {
+            background: darken($duck-egg-blue, 20);
+
+            &:hover {
+              background: $duck-egg-blue;
+            }
+          }
+
+          @include themify(night) {
+            background: darken($metallic-blue, 3);
+
+            &:hover {
+              background: $metallic-blue;
+            }
+          }
+        }
+
+        &:hover {
+          .btn-delete {
+            display: flex;
+          }
+        }
+      }
+    }
+  }
+
+  .login-sc {
+    cursor: pointer;
+    margin: auto;
+    text-align: center;
+
+    .login-title {
+      font-weight: 700;
+      margin: 0 0 10px 0;
+    }
+
+    .logo {
+      background: $white-two;
+      border-radius: 4px;
+      margin: 0 auto 14px auto;
+      padding: 3px;
+      width: 190px;
+    }
+
+    .sc-note {
+      font-size: 95%;
+      margin-bottom: 10px;
+      opacity: 0.5;
+    }
+  }
+}
+
+.login-dialog-content,
+.sign-up-dialog-content {
+  margin: auto;
+  padding: 20px;
+  width: 80%;
+
+  .dialog-header {
+    .logo {
+      margin: 0 auto 10px auto;
+      width: 100px;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .dialog-header-text {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  }
+
+  .dialog-form {
+    p {
+      color: $steel-grey;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+  }
+}
+
+.sign-up-dialog-content {
+  .dialog-header {
+    .dialog-header-text {
+      margin-bottom: 20px;
+    }
+  }
+
+  .sign-up-success {
+    font-size: 16px;
+
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .mi {
+        font-size: 24px;
+        margin-right: 10px;
+        color: $green1;
+      }
+    }
+  }
+}

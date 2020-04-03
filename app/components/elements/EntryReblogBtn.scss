@@ -1,0 +1,31 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+@keyframes reblogging-color-change {
+  0% {
+    color: $dark-sky-blue;
+  }
+  25% {
+    color: transparent;
+  }
+  50% {
+    color: $dark-sky-blue;
+  }
+  75% {
+    color: transparent;
+  }
+  100% {
+    color: $dark-sky-blue;
+  }
+}
+
+.reblog-btn {
+  &.processing {
+    animation: reblogging-color-change 5s infinite;
+    pointer-events: none;
+
+    .mi {
+      opacity: 1 !important;
+    }
+  }
+}

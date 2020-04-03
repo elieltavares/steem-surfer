@@ -1,0 +1,32 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+.drop-down-caret {
+  align-items: center;
+  background: transparent;
+  border-radius: 50%;
+  display: flex;
+  height: 32px;
+  justify-content: center;
+  transition: 0.5s;
+  width: 32px;
+
+  @include themify(day) {
+    color: $dark-sky-blue;
+  }
+
+  @include themify(night) {
+    color: $pastel-blue;
+  }
+
+  &:hover,
+  &.hover {
+    @include themify(day) {
+      background: $duck-egg-blue;
+    }
+
+    @include themify(night) {
+      background: $dark-grey-blue;
+    }
+  }
+}

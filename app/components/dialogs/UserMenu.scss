@@ -1,0 +1,94 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+.user-menu-content {
+  padding-top: 12px;
+
+  .menu-header {
+    align-items: center;
+    display: flex;
+    height: 43px;
+    justify-content: flex-end;
+    margin-bottom: 22px;
+    padding: 11px;
+
+    .display-name {
+      color: $white;
+      font-size: 16px;
+      font-weight: 500;
+      margin-right: 12px;
+      max-width: 132px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @include themify(day) {
+      background-image: linear-gradient(to left, $dusk-blue, $dark-sky-blue);
+      color: $silver;
+    }
+
+    @include themify(night) {
+      background-image: linear-gradient(to left, $dark-indigo, $dusky-blue);
+      color: $white-five;
+    }
+  }
+
+  .user-menu-items {
+    .menu-item {
+      align-items: center;
+      border-bottom-left-radius: 25px;
+      border-top-left-radius: 25px;
+      display: flex;
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0 0 0 16px;
+      padding: 16px 0 16px 32px;
+      transition: 0.5s;
+
+      @include themify(day) {
+        color: $steel-grey;
+      }
+
+      @include themify(night) {
+        color: $white-five;
+      }
+
+      span {
+        display: inline-flex;
+      }
+
+      .mi {
+        font-size: 18px;
+        line-height: 18px;
+        margin-right: 20px;
+
+        @include themify(day) {
+          color: $silver;
+        }
+      }
+
+      &:hover {
+        .mi {
+          @include themify(day) {
+            color: $dark-sky-blue;
+          }
+
+          @include themify(night) {
+            color: $powder-blue;
+          }
+        }
+
+        @include themify(day) {
+          background: $duck-egg-blue;
+          color: $dark-sky-blue;
+        }
+
+        @include themify(night) {
+          background: $metallic-blue;
+          color: $powder-blue;
+        }
+      }
+    }
+  }
+}

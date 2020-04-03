@@ -1,0 +1,166 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+@keyframes up-voting-color-change {
+  0% {
+    background: $dark-sky-blue;
+
+    svg {
+      fill: $white;
+    }
+  }
+  25% {
+    background: transparent;
+
+    svg {
+      fill: $dark-sky-blue;
+    }
+  }
+  50% {
+    background: $dark-sky-blue;
+
+    svg {
+      fill: $white;
+    }
+  }
+  75% {
+    background: transparent;
+
+    svg {
+      fill: $dark-sky-blue;
+    }
+  }
+  100% {
+    background: $dark-sky-blue;
+
+    svg {
+      fill: $white;
+    }
+  }
+}
+
+@keyframes down-voting-color-change {
+  0% {
+    background: $red2;
+
+    svg {
+      fill: $white;
+    }
+  }
+  25% {
+    background: transparent;
+
+    svg {
+      fill: $red2;
+    }
+  }
+  50% {
+    background: $red2;
+
+    svg {
+      fill: $white;
+    }
+  }
+  75% {
+    background: transparent;
+
+    svg {
+      fill: $red2;
+    }
+  }
+  100% {
+    background: $red2;
+
+    svg {
+      fill: $white;
+    }
+  }
+}
+
+.btn-up-vote,
+.btn-down-vote {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  height: 18px;
+  justify-content: center;
+  text-decoration: none;
+  width: 18px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+
+  &.in-progress {
+    animation: up-voting-color-change 5s infinite;
+    pointer-events: none;
+  }
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  .btn-inner {
+    display: flex;
+  }
+}
+
+.btn-up-vote {
+  border: 1px solid rgba($dark-sky-blue, 0.8);
+  color: rgba($dark-sky-blue, 0.8);
+  margin-right: 4px;
+
+  &:hover,
+  &.voted {
+    background-color: $dark-sky-blue;
+    color: $white;
+  }
+}
+
+.btn-down-vote {
+  border: 1px solid rgba($red2, 0.8);
+  color: rgba($red2, 0.8);
+
+  &:hover,
+  &.voted {
+    background-color: $red2;
+    color: $white;
+  }
+
+  &.in-progress {
+    animation: down-voting-color-change 5s infinite;
+  }
+
+  svg {
+    transform: rotate(180deg);
+  }
+}
+
+.vote-btns {
+  display: flex;
+}
+
+.vote-slider-content {
+  width: 400px;
+  padding-bottom: 1px;
+
+  .estimated,
+  .percentage {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .estimated {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .percentage {
+    font-size: 14px;
+  }
+}

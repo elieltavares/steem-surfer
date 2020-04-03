@@ -1,0 +1,51 @@
+@import "../../../node_modules/antd/dist/antd";
+@import "colors";
+
+@font-family: 'Roboto', sans-serif;
+@line-height-base: 1.2;
+
+@primary-color: lighten(@metallic-blue, 15);
+@primary-1: @powder-blue;
+
+@text-color: @silver;
+@text-color-secondary: @silver;
+@component-background: lighten(@dark-six, 5);
+@popover-bg: lighten(@dark-six, 5);
+
+@pagination-item-size: 24px;
+@pagination-item-size-sm: 20px;
+
+@heading-color: lighten(@metallic-blue, 30);
+@table-header-bg: @dark-six;
+@table-row-hover-bg: lighten(@dark-six, 10);
+@table-header-sort-bg: @dark-two;
+
+@border-color-split: @dark-two;
+@border-color-base: darken(@metallic-blue, 5);
+
+@disabled-color: @gunmetal;
+
+@switch-color: @dark-sky-blue;
+
+@input-bg: @dark;
+@input-hover-border-color: @metallic-blue;
+@input-placeholder-color: lighten(@metallic-blue, 10);
+
+@item-hover-bg: darken(@metallic-blue, 10);
+@item-active-bg: @metallic-blue;
+@background-color-light: @metallic-blue;
+
+.ant-alert {
+  color: @dark-two;
+}
+
+.ant-slider-dot{
+  background: @white-two;
+  border-color: @powder-blue;
+}
+
+.ant-slider-dot-active{
+  background: @dark-sky-blue;
+}
+
+@import "overwrites";

@@ -1,0 +1,64 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+.settings-dialog-content {
+  padding: 20px;
+
+  .row {
+    margin-bottom: 26px;
+
+    .col,
+    .label-col {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      min-height: 32px;
+    }
+
+    .label-col {
+      font-weight: bold;
+    }
+  }
+
+  .serverAddress {
+    margin-right: 10px;
+  }
+
+  .push-switch {
+    margin-right: 10px;
+  }
+
+  .node-list {
+    margin-top: 10px;
+    width: 100%;
+
+    .node-list-body {
+      margin-bottom: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+
+      .node-list-item {
+        padding: 8px 4px;
+
+        a {
+          text-decoration: underline;
+
+          &.disabled {
+            pointer-events: none;
+            text-decoration: none;
+          }
+        }
+
+        &:nth-child(odd) {
+          @include themify(day) {
+            background: $white-three;
+          }
+
+          @include themify(night) {
+            background: $dark-six;
+          }
+        }
+      }
+    }
+  }
+}

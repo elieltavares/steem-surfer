@@ -1,0 +1,946 @@
+@import '../style/mixins';
+@import '../style/colors';
+
+@keyframes claiming-color-change {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.account-page {
+  .page-header {
+    display: flex;
+    flex-wrap: wrap;
+    height: 50px;
+
+    .left-side {
+      height: 50px;
+      margin-right: 32px;
+      width: 208px;
+    }
+
+    .right-side {
+      flex-grow: 1;
+
+      .account-menu {
+        display: flex;
+        height: 50px;
+
+        @include themify(day) {
+          border-bottom: 1px solid $white-four;
+        }
+
+        @include themify(night) {
+          border-bottom: 1px solid $dark-two;
+        }
+
+        .account-menu-items {
+          display: flex;
+          flex-shrink: 0;
+
+          .menu-item {
+            align-items: center;
+            color: $steel-grey;
+            display: flex;
+            font-size: 16px;
+            height: 50px;
+            margin-right: 16px;
+            padding: 0 16px;
+
+            &.selected-item {
+              border-bottom: 2px solid $dark-sky-blue;
+              color: $dark-sky-blue;
+              font-weight: 700;
+              pointer-events: none;
+            }
+          }
+        }
+
+        .page-tools {
+          align-items: center;
+          display: flex;
+          flex-grow: 1;
+          justify-content: flex-end;
+          padding-right: 18px;
+        }
+      }
+    }
+  }
+
+  .page-inner {
+    height: calc(100% - 50px);
+    overflow-y: auto;
+
+    .left-side {
+      float: left;
+      margin-right: 32px;
+      width: 208px;
+
+      .profile-area {
+        padding: 16px 0 0 29px;
+
+        .account-avatar {
+          height: 128px;
+          margin: 0 0 24px 0;
+          position: relative;
+          width: 128px;
+
+          .user-avatar {
+            border: 3px solid $duck-egg-blue;
+            height: 128px;
+            width: 128px;
+          }
+
+          .reputation {
+            background: $dark-sky-blue;
+            border-radius: 25px;
+            bottom: 2px;
+            color: $white;
+            font-weight: 700;
+            left: 0;
+            line-height: 1em;
+            padding: 4px 12px;
+            position: absolute;
+          }
+        }
+
+        .username {
+          font-size: 18px;
+          font-weight: 700;
+          margin-bottom: 12px;
+
+          @include themify(day) {
+            color: $charcoal-grey;
+          }
+          @include themify(night) {
+            color: $pinkish-grey;
+          }
+
+          &:before {
+            content: '@';
+          }
+        }
+
+        .vpower-line {
+          background: $duck-egg-blue;
+          height: 2px;
+          margin-bottom: 8px;
+
+          .vpower-line-inner {
+            background: $dark-sky-blue;
+            height: 2px;
+          }
+        }
+
+        .vpower-percentage {
+          color: $dark-sky-blue;
+          cursor: default;
+          flex-shrink: 0;
+          font-size: 12px;
+          font-weight: 500;
+          margin-bottom: 22px;
+
+          &:after {
+            content: '%';
+          }
+        }
+
+        .full-name {
+          color: $dark-sky-blue;
+          font-size: 18px;
+          font-weight: 700;
+          margin-bottom: 12px;
+        }
+
+        .about {
+          color: $dark-sky-blue;
+          margin-bottom: 24px;
+          opacity: 0.5;
+        }
+
+        .account-prop {
+          align-items: start;
+          color: $steel-grey;
+          cursor: default;
+          display: flex;
+          margin-bottom: 12px;
+          word-break: break-all;
+
+          .holder-tooltip {
+            display: flex;
+          }
+
+          .mi {
+            color: $silver;
+            font-size: 16px;
+            margin-right: 6px;
+          }
+
+          .active-votes-icon {
+            align-items: center;
+            background: $silver;
+            border-radius: 50%;
+            display: flex;
+            height: 16px;
+            justify-content: center;
+            margin-left: 1px;
+            width: 16px;
+
+            @include themify(day) {
+              color: $white;
+            }
+
+            @include themify(night) {
+              color: $charcoal-grey;
+            }
+          }
+        }
+
+        .account-numbers {
+          align-items: flex-start;
+          display: flex;
+          flex-wrap: wrap;
+          margin-bottom: 12px;
+
+          .account-prop {
+            width: 88px;
+          }
+
+          .tooltip-handler {
+            align-items: center;
+            display: flex;
+          }
+        }
+
+        .website-link {
+          color: $steel-grey;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 180px;
+        }
+
+        .divider {
+          height: 1px;
+          margin-bottom: 24px;
+          overflow: hidden;
+
+          @include themify(day) {
+            background: $white-four;
+          }
+
+          @include themify(night) {
+            background: $dark-two;
+          }
+        }
+
+        .voting-services {
+          a {
+            color: $dark-sky-blue;
+          }
+
+          .separator {
+            color: $white-five;
+            margin: 0 4px;
+          }
+        }
+      }
+    }
+
+    .right-side {
+      float: right;
+      margin-top: 12px;
+      width: calc(100% - 240px);
+
+      .account-cover {
+        height: 134px;
+        position: relative;
+        width: calc(100% - 18px);
+
+        .cover-image {
+          background-color: $white-three;
+          background-position: 50% 50%;
+          background-repeat: no-repeat;
+          background-size: cover;
+          border-radius: 3px;
+          height: 100%;
+          position: absolute;
+          width: 100%;
+          z-index: 1;
+        }
+
+        .follow-controls-holder {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          z-index: 2;
+        }
+      }
+
+      .top-posts-list {
+        margin: 25px 0 29px 0;
+        width: calc(100% - 18px);
+
+        .top-posts-list-header {
+          font-size: 18px;
+          font-weight: 700;
+          margin: 0 0 16px 0;
+        }
+
+        .top-posts-list-body {
+          display: flex;
+          justify-content: flex-start;
+          max-width: 100%;
+          overflow-y: scroll;
+
+          &::-webkit-scrollbar {
+            background: transparent;
+            width: 0;
+          }
+
+          .top-posts-list-item {
+            border-radius: 8px;
+            cursor: pointer;
+            height: 120px;
+            margin-right: 10px;
+            width: 130px;
+
+            @include themify(day) {
+              border: 1px solid $white-four;
+            }
+
+            @include themify(night) {
+              border: solid 1px $dark-two;
+            }
+
+            .post-image {
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
+              height: 77px;
+              max-width: 100%;
+              overflow: hidden;
+
+              img {
+                width: 100%;
+              }
+            }
+
+            .post-content {
+              align-items: center;
+              display: flex;
+              flex-direction: column;
+              height: 38px;
+              justify-content: space-evenly;
+              margin-top: 2px;
+              min-width: 130px;
+
+              .post-title,
+              .post-body {
+                font-size: 11px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 90%;
+              }
+
+              .post-title {
+                color: $charcoal-grey;
+                font-weight: 700;
+              }
+
+              .post-body {
+                color: $steel-grey;
+              }
+            }
+          }
+        }
+      }
+
+      .entry-list {
+        .entry-list-body.grid-view {
+          align-content: stretch;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+          padding-right: 10px;
+        }
+      }
+
+      .wallet-section {
+        cursor: default;
+
+        .first-row {
+          align-items: center;
+          box-sizing: content-box;
+          display: flex;
+          height: 50px;
+          padding: 4px 0 14px 0;
+
+          @include themify(day) {
+            border-bottom: 1px solid $white-four;
+          }
+
+          @include themify(night) {
+            border-bottom: 1px solid $dark-two;
+          }
+
+          .unclaimed-rewards {
+            align-items: center;
+            display: flex;
+
+            .title {
+              font-size: 18px;
+              font-weight: 700;
+              margin-right: 17px;
+
+              @include themify(day) {
+                color: $steel-grey;
+              }
+
+              @include themify(night) {
+                color: $metallic-blue;
+              }
+            }
+
+            .rewards {
+              align-items: center;
+              background-color: $dark-sky-blue;
+              border-radius: 25px;
+              color: $white;
+              display: flex;
+              font-weight: 700;
+              height: 51px;
+              padding: 0 12px 0 24px;
+
+              .reward-type {
+                margin-right: 5px;
+
+                &:last-of-type {
+                  margin-right: 12px;
+                }
+              }
+
+              .claim-btn {
+                color: $white;
+
+                .mi {
+                  font-size: 30px;
+                }
+
+                &:hover {
+                  color: lighten($dark-sky-blue, 30);
+                }
+
+                &.in-progress {
+                  animation: claiming-color-change 5s infinite;
+                  pointer-events: none;
+                }
+              }
+            }
+          }
+
+          .estimated-value {
+            color: $dark-sky-blue;
+            flex-grow: 1;
+            font-size: 24px;
+            font-weight: 700;
+            margin-right: 29px;
+            text-align: right;
+          }
+        }
+
+        .second-row {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 16px;
+          padding-bottom: 16px;
+
+          @include themify(day) {
+            border-bottom: 1px solid $white-four;
+          }
+
+          @include themify(night) {
+            border-bottom: 1px solid $dark-two;
+          }
+
+          .funds {
+            width: calc(50% - 16px);
+
+            .fund-info-icon {
+              width: 30px;
+
+              &:after {
+                align-items: center;
+
+                border-radius: 50%;
+                color: $steel-grey;
+                content: 'i';
+                display: flex;
+                font-size: 12px;
+                height: 16px;
+                justify-content: center;
+                opacity: 0.5;
+                width: 16px;
+
+                @include themify(day) {
+                  border: 2px solid $steel-grey;
+                  color: $steel-grey;
+                }
+
+                @include themify(night) {
+                  border: 2px solid $metallic-blue;
+                  color: $metallic-blue;
+                }
+              }
+            }
+
+            .fund {
+              border-radius: 8px;
+              box-sizing: content-box;
+              padding: 16px 16px 0 16px;
+
+              &.alternative {
+                @include themify(day) {
+                  background: $white-three;
+                }
+
+                @include themify(night) {
+                  background: lighten($dark-six, 4);
+                }
+              }
+
+              .fund-line {
+                align-items: center;
+                display: flex;
+                padding-bottom: 16px;
+
+                .fund-title {
+                  font-size: 16px;
+                  font-weight: 500;
+                  width: 110px;
+
+                  @include themify(day) {
+                    color: $charcoal-grey;
+                  }
+
+                  @include themify(night) {
+                    color: $powder-blue;
+                  }
+                }
+
+                .fund-number {
+                  color: $dark-sky-blue;
+                  flex-grow: 1;
+                  font-size: 14px;
+                  font-weight: 500;
+                  text-align: right;
+                  width: 180px;
+
+                  &.delegated-shares,
+                  &.received-shares,
+                  &.next-power-down-amount {
+                    color: $steel-grey;
+                  }
+
+                  &.total-sp {
+                    font-weight: 700;
+                  }
+
+                  .btn-delegated,
+                  .btn-delegatee {
+                    border-bottom: 1px dashed $steel-grey;
+                    cursor: pointer;
+                  }
+                }
+
+                .fund-action {
+                  flex-grow: 0;
+                  flex-shrink: 0;
+                  margin-left: 10px;
+                  width: 40px;
+                }
+              }
+            }
+
+            .next-power-down {
+              align-items: center;
+              box-sizing: content-box;
+              display: flex;
+              padding: 16px 16px 0 16px;
+
+              @include themify(day) {
+                color: $steel-grey;
+              }
+
+              @include themify(night) {
+                color: $metallic-blue;
+              }
+            }
+          }
+
+          .exchange-data {
+            margin-right: 20px;
+            padding-top: 16px;
+            width: calc(50% - 36px);
+
+            .exchange-title {
+              align-items: center;
+              display: flex;
+              margin-bottom: 14px;
+
+              .title-icon {
+                border-radius: 2px;
+                font-size: 16px;
+                height: 16px;
+                margin-left: 16px;
+                margin-right: 12px;
+
+                @include themify(day) {
+                  background: $silver;
+                  color: $white;
+                }
+
+                @include themify(night) {
+                  background: $metallic-blue;
+                  color: $powder-blue;
+                }
+              }
+
+              h2 {
+                font-size: 18px;
+                margin: 0;
+              }
+            }
+
+            .market-data {
+              border-radius: 8px;
+              margin-bottom: 12px;
+              padding: 14px 16px;
+
+              @include themify(day) {
+                background: $white;
+                border: 1px solid $white-four;
+              }
+
+              @include themify(night) {
+                background: lighten($dark-six, 4);
+              }
+
+              .market-data-title {
+                font-size: 16px;
+                font-weight: 500;
+                margin-bottom: 14px;
+
+                @include themify(day) {
+                  color: $charcoal-grey;
+                }
+
+                @include themify(night) {
+                  color: $powder-blue;
+                }
+              }
+
+              .price {
+                align-items: center;
+                display: flex;
+                margin-top: 14px;
+
+                .price-usd {
+                  color: $dark-sky-blue;
+                  font-size: 18px;
+                  font-weight: 500;
+                }
+
+                .price-btc {
+                  color: $silver;
+                  font-size: 18px;
+                  font-weight: 500;
+                }
+
+                .price-usd,
+                .price-btc {
+                  align-items: center;
+                  display: flex;
+
+                  svg {
+                    height: 16px;
+                    width: 16px;
+                  }
+                }
+
+                .price-change {
+                  font-size: 14px;
+                  font-weight: 500;
+                  margin-left: 8px;
+                }
+
+                .change-icon {
+                  font-size: 16px;
+                  margin-left: 8px;
+                }
+
+                &.change-up {
+                  color: $green1;
+                }
+
+                &.change-same {
+                  color: $silver;
+                }
+
+                &.change-down {
+                  color: $red2;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .points-section {
+        padding-top: 20px;
+
+        .points {
+          margin-bottom: 30px;
+          text-align: center;
+
+          .points-val {
+            color: $dark-sky-blue;
+            display: inline-flex;
+            margin-bottom: 10px;
+            cursor: default;
+            position: relative;
+
+            .val {
+              font-size: 28px;
+              font-weight: 500;
+            }
+
+            .drop-down-caret {
+              position: absolute;
+              right: -40px;
+              top: 0;
+            }
+          }
+
+          .point-name {
+            font-weight: 700;
+            margin-bottom: 10px;
+
+            @include themify(day) {
+              color: darken($silver, 10);
+            }
+
+            @include themify(night) {
+              color: $metallic-blue;
+            }
+          }
+
+          .unclaimed {
+            align-items: center;
+            background-color: $dark-sky-blue;
+            border-radius: 25px;
+            color: $white;
+            display: inline-flex;
+            height: 51px;
+            margin-top: 10px;
+            padding: 0 24px;
+
+            .val {
+              font-size: 18px;
+              font-weight: 500;
+            }
+
+            .claim-btn {
+              color: $white;
+
+              .mi {
+                font-size: 30px;
+              }
+
+              &:hover {
+                color: lighten($dark-sky-blue, 30);
+              }
+
+              &.in-progress {
+                animation: claiming-color-change 5s infinite;
+                pointer-events: none;
+              }
+            }
+
+            &.can-claim {
+              .val {
+                margin-right: 10px;
+              }
+            }
+          }
+
+          .get-estm {
+            margin: 10px 0;
+          }
+        }
+
+        .point-reward-types {
+          margin-bottom: 30px;
+          text-align: center;
+          cursor: default;
+
+          .point-reward-type {
+            align-items: center;
+
+            border-radius: 50%;
+            display: inline-flex;
+            height: 40px;
+            justify-content: center;
+            width: 40px;
+            color: $warm-grey;
+            font-size: 18px;
+            position: relative;
+
+            @include themify(day) {
+              background: $white-three;
+              color: $steel-grey;
+            }
+
+            @include themify(night) {
+              background: $metallic-blue;
+              color: lighten($metallic-blue, 40);
+            }
+
+            &:not(:last-child) {
+              margin-right: 30px;
+            }
+
+            .reward-num {
+              background: $dark-sky-blue;
+              position: absolute;
+              right: -30%;
+              bottom: 0;
+              color: $white;
+              font-size: 10px;
+              border-radius: 24px;
+              width: 24px;
+              padding: 1px 0;
+            }
+          }
+        }
+      }
+
+      .transaction-list {
+        margin: 0 29px 20px 0;
+
+        .transaction-list-header {
+          h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+          }
+        }
+
+        .transaction-list-item {
+          border-radius: 8px;
+          box-sizing: content-box;
+          display: flex;
+          padding: 16px;
+
+          .transaction-icon {
+            align-items: center;
+            border-radius: 50%;
+            display: flex;
+            font-size: 16px;
+            height: 32px;
+            justify-content: center;
+            margin-right: 10px;
+            width: 32px;
+
+            @include themify(day) {
+              background: $white;
+              color: $steel-grey;
+            }
+
+            @include themify(night) {
+              background: $metallic-blue;
+              color: lighten($metallic-blue, 40);
+            }
+          }
+
+          .transaction-title {
+            display: flex;
+            flex-direction: column;
+            font-weight: 500;
+            width: 30%;
+
+            .transaction-name {
+              @include themify(day) {
+                color: $steel-grey;
+              }
+
+              @include themify(night) {
+                color: $metallic-blue;
+              }
+            }
+
+            .transaction-date {
+              font-size: 12px;
+
+              @include themify(day) {
+                color: $silver;
+              }
+
+              @include themify(night) {
+                color: $warm-grey;
+              }
+            }
+          }
+
+          .transaction-numbers {
+            color: $dark-sky-blue;
+            flex-grow: 1;
+
+            font-weight: 500;
+            margin-right: 30px;
+            text-align: right;
+
+            .number {
+              margin-right: 4px;
+            }
+          }
+
+          .transaction-details {
+            color: $steel-grey;
+            width: 30%;
+            word-break: break-all;
+          }
+
+          &:nth-child(odd) {
+            @include themify(day) {
+              background: $white-three;
+            }
+
+            @include themify(night) {
+              background: lighten($dark-six, 4);
+            }
+          }
+
+          @include themify(day) {
+            &:nth-child(even) {
+              .transaction-icon {
+                background-color: $white-three;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

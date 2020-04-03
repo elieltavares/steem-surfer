@@ -1,0 +1,308 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+.nav-bar {
+  flex-shrink: 0;
+  height: 85px;
+  padding-top: 8px;
+
+  .nav-bar-inner {
+    align-items: center;
+    display: flex;
+    height: 50px;
+
+    .logo {
+      background-size: 100%;
+      border-radius: 50%;
+      flex-shrink: 0;
+      height: 40px;
+      margin: 0 20px 0 24px;
+      width: 40px;
+
+      @include themify(day) {
+        background-image: url(../img/logo.png);
+      }
+
+      @include themify(night) {
+        background-image: url(../img/logo-white.png);
+      }
+    }
+
+    .btn-post-mini {
+      border-radius: 50%;
+      cursor: pointer;
+      flex-shrink: 0;
+      height: 30px;
+      margin-right: 10px;
+      transition: 0.5s;
+      visibility: hidden;
+      width: 30px;
+
+      .icon {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        width: 100%;
+      }
+
+      @include themify(day) {
+        background: $duck-egg-blue;
+        color: $dark-sky-blue;
+      }
+
+      @include themify(night) {
+        background: $metallic-blue;
+        color: $powder-blue;
+      }
+
+      &:hover {
+        @include themify(day) {
+          background: lighten($dark-sky-blue, 30);
+        }
+
+        @include themify(night) {
+          background: darken($metallic-blue, 16);
+        }
+      }
+
+      &.visible {
+        visibility: visible;
+      }
+    }
+
+    .nav-controls {
+      align-items: center;
+      display: flex;
+      flex-shrink: 0;
+      font-size: 24px;
+      height: 44px;
+      margin-right: 26px;
+
+      .back,
+      .forward,
+      .reload {
+        cursor: pointer;
+        height: 24px;
+        width: 24px;
+
+        @include themify(day) {
+          color: $steel-grey;
+        }
+
+        @include themify(night) {
+          color: $white-five;
+        }
+
+        &:not(:last-child) {
+          margin-right: 8px;
+        }
+
+        &.disabled {
+          pointer-events: none;
+
+          @include themify(day) {
+            color: $silver;
+          }
+
+          @include themify(night) {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+
+    .address-bar {
+      align-items: center;
+      border-radius: 8px;
+      display: flex;
+      flex-grow: 1;
+      height: 44px;
+      width: 484px;
+      position: relative;
+
+      @include themify(day) {
+        background-color: $white-three;
+        color: $steel-grey;
+      }
+
+      @include themify(night) {
+        background-color: $dark-grey-blue;
+        color: $white-five;
+      }
+
+      .pre-add-on,
+      .post-add-on {
+        align-items: center;
+        display: flex;
+        font-size: 18px;
+        height: 100%;
+        justify-content: center;
+        width: 47px;
+        @include themify(day) {
+          color: $steel-grey;
+        }
+
+        @include themify(night) {
+          color: $white-five;
+        }
+      }
+
+      .post-add-on {
+        @include themify(day) {
+          color: $silver;
+        }
+
+        @include themify(night) {
+          color: $white-five;
+        }
+
+        &.checked {
+          color: $dark-sky-blue;
+        }
+      }
+
+      .address {
+        align-items: center;
+        display: flex;
+        flex-grow: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        .protocol {
+          flex-grow: 0;
+          font-weight: 500;
+        }
+
+        .url {
+          background: transparent;
+          border: 0;
+          flex-grow: 1;
+          margin-right: 10px;
+          outline: none;
+          &:focus {
+            outline: none;
+          }
+
+          &::placeholder {
+            color: $silver;
+            padding-left: 10px;
+          }
+        }
+
+        .in-progress {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .alt-controls {
+      align-items: center;
+      display: flex;
+      flex-shrink: 0;
+      height: 44px;
+      justify-content: center;
+      width: 120px;
+
+      .switch-theme,
+      .settings {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        font-size: 18px;
+        height: 18px;
+
+        @include themify(day) {
+          color: $silver;
+        }
+
+        @include themify(night) {
+          color: $white-five;
+          opacity: 0.5;
+        }
+      }
+
+      .switch-theme {
+        margin-right: 20px;
+      }
+    }
+
+    .user-menu {
+      align-items: center;
+      border-bottom-left-radius: 25px;
+      border-top-left-radius: 25px;
+      display: flex;
+      flex-shrink: 0;
+      height: 50px;
+      justify-content: center;
+      width: 70px;
+      @include themify(day) {
+        background-image: linear-gradient(to left, $dusk-blue, $dark-sky-blue);
+      }
+
+      @include themify(night) {
+        background-image: linear-gradient(to left, $dark-indigo, $dusky-blue);
+      }
+
+      .login {
+        color: $white;
+        display: flex;
+        font-size: 32px;
+      }
+
+      .user-menu-trigger {
+      }
+
+      .wallet,
+      .activities,
+      .points {
+        color: $white;
+        display: flex;
+        font-size: 18px;
+      }
+
+      .wallet,
+      .points {
+        position: relative;
+
+        .reward-badge {
+          background: $red4;
+          border-radius: 50%;
+          height: 5px;
+          position: absolute;
+          width: 5px;
+          right: -1px;
+        }
+      }
+
+      .activities {
+        position: relative;
+
+        .activity-badge {
+          background: $red4;
+          border-radius: 50%;
+          color: $white;
+          font-size: 10px;
+          height: 14px;
+          position: absolute;
+          right: -5px;
+          text-align: center;
+          top: -3px;
+          width: 14px;
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+      }
+
+      &.logged-in {
+        justify-content: space-between;
+        padding: 0 12px 0 20px;
+        width: 170px;
+      }
+    }
+  }
+}

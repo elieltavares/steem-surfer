@@ -1,0 +1,280 @@
+{
+  "name": "esteem-surfer",
+  "productName": "eSteem Surfer",
+  "description": "eSteem desktop application reimagined for Windows, Mac, Linux users, start earning cryptocurrency!",
+  "version": "2.2.3",
+  "releasePost": "esteem/@esteemapp/esteem-surfer-changelog",
+  "private": true,
+  "author": "eSteem <info@esteem.app>",
+  "copyright": "© 2020, eSteem",
+  "homepage": "https://esteem.app",
+  "scripts": {
+    "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
+    "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
+    "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
+    "build-renderer": "cross-env NODE_ENV=production node --max-old-space-size=4076 --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
+    "dev": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
+    "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
+    "lint": "cross-env NODE_ENV=development eslint --cache --format=node_modules/eslint-formatter-pretty .",
+    "lint-fix": "yarn --silent lint --fix; exit 0",
+    "lint-styles": "stylelint app/*.css app/components/*.css --syntax scss",
+    "lint-styles-fix": "stylefmt -r app/*.css app/components/*.css",
+    "package": "yarn build && electron-builder build --publish never",
+    "package-all": "yarn build && electron-builder build -wml ",
+    "package-linux": "yarn build && electron-builder build --linux",
+    "package-win": "yarn build && electron-builder build --win --publish never",
+    "publish-all": "electron-builder build -wml --publish always",
+    "postinstall": "node internals/post-install.js && node -r babel-register internals/scripts/CheckNativeDep.js && yarn build-dll && electron-builder install-app-deps package.json",
+    "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.js'",
+    "precommit": "lint-staged",
+    "prestart": "yarn build",
+    "start": "cross-env NODE_ENV=production electron ./app/",
+    "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev.js",
+    "start-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js",
+    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings -r babel-register ./internals/scripts/RunTests.js",
+    "test-all": "yarn lint && yarn build && yarn test && yarn test-e2e",
+    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings -r babel-register ./internals/scripts/RunTests.js e2e",
+    "test-watch": "yarn test --watch"
+  },
+  "browserslist": "electron 1.6",
+  "lint-staged": {
+    "*.(js|jsx)": [
+      "cross-env NODE_ENV=development eslint --cache --format=node_modules/eslint-formatter-pretty",
+      "prettier --ignore-path .eslintignore --single-quote --write",
+      "git add"
+    ],
+    "*.(json|css|scss|md)|.(babelrc|prettierrc|eslintrc)": [
+      "prettier --ignore-path .eslintignore --write",
+      "git add"
+    ]
+  },
+  "build": {
+    "productName": "eSteem Surfer",
+    "appId": "app.esteem.surfer",
+    "files": [
+      "dist/",
+      "node_modules/",
+      "app.html",
+      "main.prod.js",
+      "main.prod.js.map",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.finance",
+      "type": "distribution",
+      "target": [
+        "zip",
+        "dmg"
+      ]
+    },
+    "dmg": {
+      "background": "resources/dmg-bg.png",
+      "window": {
+        "width": 600,
+        "height": 578
+      },
+      "contents": [
+        {
+          "x": 490,
+          "y": 255,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 215,
+          "y": 255,
+          "type": "file"
+        }
+      ]
+    },
+    "win": {
+      "publisherName": "eSteem",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "tar.gz",
+        "AppImage",
+        "rpm"
+      ],
+      "category": "Development"
+    },
+    "protocols": [
+      {
+        "name": "steem",
+        "role": "Viewer",
+        "schemes": [
+          "steem",
+          "esteem"
+        ]
+      }
+    ],
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "esteemapp",
+        "repo": "esteem-surfer",
+        "vPrefixedTagName": false,
+        "private": false,
+        "releaseType": "draft",
+        "allowPrerelease": true
+      }
+    ]
+  },
+  "jest": {
+    "testURL": "http://localhost/",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/node_modules"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "setupFiles": [
+      "./internals/scripts/CheckBuiltsExist.js"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-jest": "^23.4.2",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-dev-expression": "^0.2.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chalk": "^2.4.1",
+    "classnames": "^2.2.6",
+    "concurrently": "^3.6.1",
+    "cross-env": "^5.2.0",
+    "cross-spawn": "^6.0.5",
+    "css-loader": "^1.0.0",
+    "deep-freeze": "^0.0.1",
+    "detect-port": "^1.2.3",
+    "electron": "^2.0.6",
+    "electron-builder": "^22.2.0",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-rebuild": "^1.8.2",
+    "enzyme": "^3.4.0",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "enzyme-to-json": "^3.3.4",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-formatter-pretty": "^1.3.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
+    "eslint-plugin-compat": "^2.5.1",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.18.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-react": "^7.10.0",
+    "express": "^4.16.3",
+    "fbjs-scripts": "^0.8.3",
+    "file-loader": "^1.1.11",
+    "husky": "^0.14.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.4.2",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "lint-staged": "^7.2.0",
+    "mini-css-extract-plugin": "^0.4.1",
+    "minimist": "^1.2.0",
+    "node-sass": "^4.9.2",
+    "npm-logical-tree": "^1.2.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.0",
+    "prettier": "^1.14.0",
+    "react-test-renderer": "^16.4.1",
+    "redux-logger": "^3.0.6",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^7.0.3",
+    "sinon": "^6.1.4",
+    "spectron": "^3.8.0",
+    "style-loader": "^0.21.0",
+    "stylefmt": "^6.0.2",
+    "stylelint": "^9.4.0",
+    "stylelint-config-standard": "^18.2.0",
+    "uglifyjs-webpack-plugin": "1.2.7",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.16.3",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5",
+    "webpack-merge": "^4.1.3",
+    "yarn": "^1.17.3"
+  },
+  "dependencies": {
+    "@esteemapp/esteem-render-helpers": "^1.3.7",
+    "@fortawesome/fontawesome-free": "^5.2.0",
+    "antd": "^3.12.3",
+    "axios": "^0.18.1",
+    "codemirror": "^5.42.0",
+    "crypto-js": "^3.1.9-1",
+    "currency-symbol-map": "^4.0.4",
+    "deepmerge": "^3.2.0",
+    "devtron": "^1.4.0",
+    "diff-match-patch": "^1.0.4",
+    "electron-debug": "^2.0.0",
+    "electron-updater": "^3.1.6",
+    "eslint-plugin-flowtype": "^2.50.1",
+    "history": "^4.7.2",
+    "immutable": "^3.8.2",
+    "mark.js": "^8.11.1",
+    "material-design-icons": "^3.0.1",
+    "moment": "^2.22.2",
+    "prop-types": "^15.6.2",
+    "raw-loader": "^1.0.0",
+    "react": "^16.4.1",
+    "react-codemirror2": "^5.1.0",
+    "react-dom": "^16.4.1",
+    "react-fast-compare": "^2.0.4",
+    "react-hot-loader": "^4.3.4",
+    "react-intl": "^2.4.0",
+    "react-markdown": "^4.0.3",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^5.0.0-alpha.6",
+    "react-router-scroll-memory": "^1.0.2",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "sc2-sdk": "^2.0.0",
+    "source-map-support": "^0.5.6",
+    "speakingurl": "^14.0.1",
+    "typeface-roboto": "0.0.54",
+    "typo-js": "^1.0.3"
+  },
+  "devEngines": {
+    "node": ">=7.x",
+    "npm": ">=4.x",
+    "yarn": ">=0.21.3"
+  },
+  "resolutions": {
+    "underscore.string": "^3.3.5"
+  }
+}

@@ -1,0 +1,94 @@
+@import '../../style/mixins';
+@import '../../style/colors';
+
+.app-footer {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  height: 32px;
+  justify-content: space-between;
+  padding: 0 15px;
+
+  @include themify(day) {
+    background-color: $white-three;
+  }
+
+  @include themify(night) {
+    background-color: $dark;
+  }
+
+  .left-side {
+    align-items: center;
+    display: flex;
+    width: 40%;
+
+    @include themify(day) {
+      color: $steel-grey;
+    }
+
+    .vp {
+      align-items: center;
+      display: flex;
+
+      .battery-img {
+        margin-right: 10px;
+        transform: rotate(90deg);
+
+        @include themify(day) {
+          color: $warm-grey;
+        }
+
+        svg {
+          height: 24px;
+          width: 24px;
+        }
+      }
+    }
+
+    .vp,
+    .rc {
+      cursor: default;
+      font-size: 12px;
+    }
+
+    .vp,
+    .separator {
+      margin-right: 12px;
+    }
+
+    .separator {
+      font-weight: bold;
+    }
+  }
+
+  .right-side {
+    font-size: 12px;
+    text-align: right;
+    width: 50%;
+
+    a {
+      @include themify(day) {
+        color: $warm-grey;
+      }
+
+      @include themify(night) {
+        color: $white-five;
+      }
+
+      &.faq,
+      &.about {
+        margin-right: 8px;
+      }
+
+      &.about {
+        &:after {
+          vertical-align: -10%;
+        }
+      }
+
+      &.version {
+        font-weight: 700;
+      }
+    }
+  }
+}

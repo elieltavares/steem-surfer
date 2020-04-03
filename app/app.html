@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>eSteem Surfer</title>
+    <script>
+
+      const b64ToUtf8 = (str) => {
+        str = str.replace(/\s/g, '');
+        return decodeURIComponent(escape(window.atob(str)));
+      };
+
+      // Theme switcher
+      window.setTheme = function(theme) {
+        const css = b64ToUtf8(window[theme + 'Theme'].split('data:;base64,')[1]);
+
+        const oldStyleEl = document.querySelector('#theme-stylesheet');
+
+        const styleEl = document.createElement('style');
+        styleEl.id = 'theme-stylesheet';
+        styleEl.appendChild(document.createTextNode(css));
+        document.getElementsByTagName('head')[0].appendChild(styleEl);
+
+        if (oldStyleEl) {
+          oldStyleEl.parentElement.removeChild(oldStyleEl);
+        }
+
+        document.querySelector('body').className = theme + '-theme';
+      };
+
+      window.onload = () => {
+        const theme = localStorage.getItem('surfer2_theme') ? JSON.parse(localStorage.getItem('surfer2_theme')) : 'day';
+        window.setTheme(theme);
+
+        document.querySelector('body').style.visibility = 'visible';
+      };
+
+    </script>
+    <script>
+      // Custom link handler for external links
+      const shell = require('electron').shell;
+
+      window.openInBrowser = (href) => {
+        shell.openExternal(href);
+      };
+
+      document.addEventListener('mouseover', function(event) {
+        const { target } = event;
+
+        if (!(target.tagName === 'A' && target.classList.contains('markdown-external-link'))) {
+          return;
+        }
+
+        const href = target.getAttribute('data-href');
+        if (target.getAttribute('title') !== href) {
+          target.setAttribute('title', href);
+        }
+      });
+
+      document.addEventListener('click', function(event) {
+        let el = event.target;
+
+        // A element can be wrapped with inline element. Look parent elements.
+        while (el.tagName !== 'A') {
+          if (!el.parentNode) {
+            break;
+          }
+
+          el = el.parentNode;
+        }
+
+        if (!el || el.tagName !== 'A') {
+          return;
+        }
+
+        if (el.getAttribute('target') === '_external') {
+          const href = el.getAttribute('href');
+          shell.openExternal(href);
+          event.preventDefault();
+          return false;
+        }
+
+        if (el.classList.contains('markdown-external-link')) {
+          const href = el.getAttribute('data-href');
+          shell.openExternal(href);
+          event.preventDefault();
+          return false;
+        }
+
+        if (el.classList.contains('markdown-author-link')) {
+          event.preventDefault();
+
+          if (event.path.filter(x => x.classList && x.classList.contains('no-click-event')).length > 0) {
+            return false;
+          }
+
+          const author = el.getAttribute('data-author');
+          const ev = new CustomEvent('md-author-clicked', { detail: { author } });
+          window.dispatchEvent(ev);
+          return false;
+        }
+
+        if (el.classList.contains('markdown-post-link')) {
+          event.preventDefault();
+
+          if (event.path.filter(x => x.classList && x.classList.contains('no-click-event')).length > 0) {
+            return false;
+          }
+
+          let category = el.getAttribute('data-tag');
+          let author = el.getAttribute('data-author');
+          let permlink = el.getAttribute('data-permlink');
+          const ev = new CustomEvent('md-post-clicked', { detail: { category, author, permlink } });
+          window.dispatchEvent(ev);
+          return false;
+        }
+
+        if (el.classList.contains('markdown-tag-link')) {
+          event.preventDefault();
+
+          if (event.path.filter(x => x.classList && x.classList.contains('no-click-event')).length > 0) {
+            return false;
+          }
+
+          let tag = el.getAttribute('data-tag');
+
+          const ev = new CustomEvent('md-tag-clicked', { detail: { tag } });
+          window.dispatchEvent(ev);
+          return false;
+        }
+
+        if (el.classList.contains('markdown-witnesses-link')) {
+          event.preventDefault();
+          const ev = new CustomEvent('md-witnesses-clicked', {});
+          window.dispatchEvent(ev);
+          return false;
+        }
+
+        if (el.classList.contains('markdown-proposal-link')) {
+          event.preventDefault();
+
+          let proposal = el.getAttribute('data-proposal');
+
+          const ev = new CustomEvent('md-proposal-clicked', { detail: { proposal } });
+          window.dispatchEvent(ev);
+          return false;
+        }
+
+        if (el.classList.contains('markdown-video-link')) {
+          const embedSrc = el.getAttribute('data-embed-src');
+          if (embedSrc) {
+            el.innerHTML = `<iframe frameborder='0' allowfullscreen src='${embedSrc}'></iframe>`;
+            return;
+          }
+
+          const videoHref = el.getAttribute('data-video-href');
+          if (videoHref) {
+            shell.openExternal(videoHref);
+            event.preventDefault();
+            return false;
+          }
+        }
+      });
+
+      window.protocolHandler = function(url) {
+        const ev = new CustomEvent('deep-link', { detail: { url } });
+        window.dispatchEvent(ev);
+      };
+    </script>
+
+    <script>
+      (function() {
+        if (!process.env.HOT) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = './dist/style.css';
+          // HACK: Writing the script path should be done with webpack
+          document.getElementsByTagName('head')[0].appendChild(link);
+        }
+      }());
+    </script>
+
+</head>
+<body class="day-theme" style="visibility: hidden">
+<div id="root"></div>
+<script>
+  {
+    const scripts = [];
+
+    // Dynamically insert the DLL script in development env in the
+    // renderer process
+    if (process.env.NODE_ENV === 'development') {
+      scripts.push('../dll/renderer.dev.dll.js');
+    }
+
+    // Dynamically insert the bundled app script in the renderer process
+    const port = process.env.PORT || 1212;
+    scripts.push(
+      (process.env.HOT)
+        ? 'http://localhost:' + port + '/dist/renderer.dev.js'
+        : './dist/renderer.prod.js'
+    );
+
+    document.write(
+      scripts
+        .map(script => `<script defer src="${script}"><\/script>`)
+        .join('')
+    );
+  }
+</script>
+</body>
+</html>
